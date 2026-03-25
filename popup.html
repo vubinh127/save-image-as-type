@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Save Image As Type + FB Video</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap');
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      width: 300px;
+      background: #0e0e16;
+      color: #e0e0ff;
+      font-family: 'DM Sans', system-ui, sans-serif;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #1a1a3e, #0e0e20);
+      padding: 14px 16px 12px;
+      border-bottom: 1px solid #2a2a50;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo {
+      width: 30px; height: 30px;
+      background: linear-gradient(135deg, #6c63ff, #3ecfff);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; flex-shrink: 0;
+    }
+
+    .logo img {
+      width: 100%; height: 100%;
+    }
+    .header-text h1 { font-size: 12px; font-weight: 700; color: #fff; }
+    .header-text p  { font-size: 10px; color: #8888bb; margin-top: 1px; }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid #1e1e38;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 9px 0;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #5555aa;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+      border-bottom: 2px solid transparent;
+    }
+    .tab-btn.active { color: #9090ff; border-bottom-color: #6c63ff; }
+    .tab-btn:hover:not(.active) { color: #7777cc; }
+
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
+
+    /* Section */
+    .section { padding: 13px 16px; }
+    .section-title {
+      font-size: 9.5px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      color: #5555aa; margin-bottom: 9px;
+    }
+
+    /* Format grid */
+    .formats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+    .format-card {
+      background: #16162a; border: 1px solid #2a2a48;
+      border-radius: 8px; padding: 9px 11px;
+      display: flex; flex-direction: column; gap: 2px;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .format-card:hover { border-color: #6c63ff; background: #1c1c38; }
+    .format-name { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; color: #fff; }
+    .format-desc { font-size: 9.5px; color: #6666aa; }
+    .format-badge { font-size: 8.5px; font-weight: 700; padding: 2px 5px; border-radius: 3px; align-self: flex-start; margin-top: 2px; }
+    .badge-jpeg { background:#2a1a00;color:#ffaa44; }
+    .badge-png  { background:#001a2a;color:#44aaff; }
+    .badge-webp { background:#001a10;color:#44ff88; }
+    .badge-avif { background:#1a002a;color:#cc88ff; }
+
+    .divider { height: 1px; background: #1a1a30; margin: 0 16px; }
+
+    /* Instructions */
+    .steps { padding: 11px 16px 13px; }
+    .step {
+      display: flex; align-items: flex-start; gap: 8px;
+      font-size: 11px; color: #fff; line-height: 1.4; margin-bottom: 6px;
+    }
+    .step-num {
+      width: 15px; height: 15px; border-radius: 50%;
+      background: #2a2a50; color: #fff;
+      font-size: 8.5px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 1px;
+    }
+    strong { color: #ff0000; font-weight: 600; }
+
+    /* FB tab */
+    .fb-feature {
+      background: #0e1a2a; border: 1px solid #1a3a5a;
+      border-radius: 10px; padding: 13px; margin: 12px 14px 0;
+    }
+    .fb-feature-title {
+      font-size: 11px; font-weight: 700; color: #4ab0ff;
+      margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
+    }
+    .fb-feature-title span { font-size: 14px; }
+    .fb-feature p { font-size: 11px; color: #6699bb; line-height: 1.5; }
+
+    .limitation-box {
+      background: #1a1400; border: 1px solid #3a2e00;
+      border-radius: 8px; padding: 10px 12px; margin: 10px 14px;
+      font-size: 10.5px; color: #aa9955; line-height: 1.5;
+    }
+    .limitation-box strong { color: #ffcc44; }
+
+    /* Footer */
+    .footer {
+      padding: 8px 16px; border-top: 1px solid #1a1a30;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .version { font-family: 'DM Mono',monospace; font-size: 10px; color: #404060; }
+    .status-text { font-size: 10px; color: #4a8a60; display: flex; align-items: center; gap: 5px; }
+    .status-dot { width:6px;height:6px;border-radius:50%;background:#00c853;box-shadow:0 0 6px rgba(0,200,83,0.5); }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">
+    <img src="/icons/icon16_v2.png" alt="">
+  </div>
+  <div class="header-text">
+    <h1>Save Image As Type</h1>
+    <p>Convert images · Download FB videos</p>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" data-tab="images">Ảnh</button>
+  <button class="tab-btn" data-tab="facebook">Facebook Video  (Coming Soon)</button>
+</div>
+
+<!-- ── TAB: Images ── -->
+<div class="tab-pane active" id="tab-images">
+  <div class="section">
+    <div class="section-title">Định dạng hỗ trợ</div>
+    <div class="formats-grid">
+      <div class="format-card">
+        <span class="format-name">JPEG</span>
+        <span class="format-desc">Tốt nhất cho ảnh</span>
+        <span class="format-badge badge-jpeg">Lossy</span>
+      </div>
+      <div class="format-card">
+        <span class="format-name">PNG</span>
+        <span class="format-desc">Lossless + trong suốt</span>
+        <span class="format-badge badge-png">Lossless</span>
+      </div>
+      <div class="format-card">
+        <span class="format-name">WebP</span>
+        <span class="format-desc">Hiện đại, nhỏ gọn</span>
+        <span class="format-badge badge-webp">Both</span>
+      </div>
+      <div class="format-card">
+        <span class="format-name">AVIF</span>
+        <span class="format-desc">Nén thế hệ mới</span>
+        <span class="format-badge badge-avif">Both</span>
+      </div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="steps">
+    <div class="section-title" style="margin-bottom:7px">Cách dùng</div>
+    <div class="step"><span class="step-num">1</span><span>Chuột phải vào bất kỳ ảnh nào</span></div>
+    <div class="step"><span class="step-num">2</span><span>Hover vào <strong>Save Image As Type</strong></span></div>
+    <div class="step"><span class="step-num">3</span><span>Chọn định dạng muốn lưu</span></div>
+    <div class="step"><span class="step-num">4</span><span>File được download tự động</span></div>
+  </div>
+</div>
+
+<!-- ── TAB: Facebook Video ── -->
+<div class="tab-pane" id="tab-facebook">
+  <div class="fb-feature">
+    <div class="fb-feature-title"><span>📹</span> Facebook Video Downloader</div>
+    <p>Tự động thêm nút <strong style="color:#4ab0ff">Tải HD / Tải SD</strong> lên tất cả video public trên Facebook. Hỗ trợ cả video trong bài đăng, comment, và Reels.</p>
+  </div>
+
+  <div class="steps">
+    <div class="section-title" style="margin-bottom:7px">Cách dùng</div>
+    <div class="step"><span class="step-num">1</span><span>Mở bất kỳ video public nào trên Facebook</span></div>
+    <div class="step"><span class="step-num">2</span><span>Nút <strong>Tải HD</strong> / <strong>Tải SD</strong> sẽ xuất hiện góc trên video</span></div>
+    <div class="step"><span class="step-num">3</span><span>Click để tải về máy</span></div>
+    <div class="step"><span class="step-num">4</span><span>Nếu không thấy nút, thử <strong>F5</strong> reload trang</span></div>
+  </div>
+
+  <div class="limitation-box">
+    <strong>⚠️ Lưu ý:</strong> Chỉ hoạt động với video <strong>Public</strong>. Video Friends-only hoặc Private cần quyền truy cập từ tài khoản đang đăng nhập — extension dùng session cookie của bạn để fetch, nhưng không bypass privacy settings của người đăng.
+  </div>
+</div>
+
+<div class="footer">
+  <span class="version">v2.0.0</span>
+  <span class="status-text"><span class="status-dot"></span> Active</span>
+</div>
+
+</body>
+</html>
